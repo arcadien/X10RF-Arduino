@@ -70,7 +70,7 @@ void x10rf::RFXmeter(uint8_t rfxm_address, uint8_t rfxm_packet_type, long rfxm_v
 			}
 			x10buff[2] = rfxm_value;
 			break;
-		case 0x02: // calibrate value in <counter value> in µsec.	
+		case 0x02: // calibrate value in <counter value> in Âµsec.	
 			x10buff[4] = (uint8_t) ((rfxm_value >> 16) & 0xff);
 			x10buff[2] = (uint8_t) ((rfxm_value >> 8) & 0xff);
 			x10buff[3] = (uint8_t) (rfxm_value & 0xff);		
@@ -147,7 +147,6 @@ void x10rf::RFXsensor(uint8_t rfxs_address,uint8_t rfxs_type, char rfxs_packet_t
 			default:
 				x10buff[3] = 0x00;
 			}
-	x10buff[3] << 4;
 	uint8_t parity = ~(((x10buff[0] & 0XF0) >> 4) + (x10buff[0] & 0XF) + ((x10buff[1] & 0XF0) >> 4) + (x10buff[1] & 0XF) + ((x10buff[2] & 0XF0) >> 4) + (x10buff[2] & 0XF) + ((x10buff[3] & 0XF0) >> 4));
 	x10buff[3] = (x10buff[3] & 0xf0) + (parity & 0XF);	
 	SendCommand(x10buff, sizeof(x10buff));
@@ -155,7 +154,6 @@ void x10rf::RFXsensor(uint8_t rfxs_address,uint8_t rfxs_type, char rfxs_packet_t
 
 void x10rf::x10Switch(char house_code, uint8_t unit_code, uint8_t command){
 	uint8_t x10buff[3]; // Set message buffer 4 bytes
-	uint8_t bTmp = 0; // Tmp byte
 	switch(tolower(house_code)) {
 		case 'a': x10buff[0] = B0110; break;
 		case 'b': x10buff[0] = B0111; break;
@@ -224,7 +222,6 @@ void x10rf::SendCommand(uint8_t *data, uint8_t size){
 }
 
 void x10rf::SendX10RfByte(uint8_t data){
-	int i = 0;
 	//Serial.println("\n");
 	for (int i=7; i >= 0 ; i--){ // send bits from byte 
 		SendX10RfBit((bitRead(data,i)==1));
