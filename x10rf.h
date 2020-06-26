@@ -50,10 +50,7 @@ class x10rf
 	void SEND_HIGH();
 	void SEND_LOW();
 	
-	uint8_t _tx_port;
     uint8_t _tx_pin;
-	
-	uint8_t _led_port;
     uint8_t _led_pin;	
 
 	uint8_t _rf_repeats;

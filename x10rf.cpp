@@ -268,7 +268,7 @@ void x10rf::x10Security(uint8_t address, uint8_t command)
 void x10rf::SendCommand(uint8_t *data, uint8_t size)
 {
 	if (_led_pin > 0)
-		_led_port |= _BV(_led_pin);
+		LED_PORT |= _BV(_led_pin);
 
 	for (int i = 0; i < _rf_repeats; i++)
 	{
@@ -285,7 +285,7 @@ void x10rf::SendCommand(uint8_t *data, uint8_t size)
 	}
 
 	if (_led_pin > 0)
-		_led_port &= ~_BV(_led_pin);
+		LED_PORT &= ~_BV(_led_pin);
 }
 
 void x10rf::SendX10RfByte(uint8_t data)
