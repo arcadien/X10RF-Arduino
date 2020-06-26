@@ -282,7 +282,7 @@ void x10rf::SendCommand(uint8_t *data, uint8_t size)
 			SendX10RfByte(data[i]);
 		}
 		SendX10RfBit(1);
-		_delay_ms(X10_RF_GAP);
+		_delay_us(X10_RF_GAP);
 	}
 	SEND_LOW();
 	if (_led_pin > 0)
