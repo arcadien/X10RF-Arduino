@@ -25,6 +25,9 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
+#define TX_PORT PORTB
+#define LED_PORT PORTB
+
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -32,7 +35,7 @@ class x10rf
 {
   public:
 
-    x10rf(uint8_t tx_port, uint8_t tx_pin, uint8_t led_port, uint8_t led_pin, uint8_t rf_repeats);
+    x10rf(uint8_t tx_pin, uint8_t led_pin, uint8_t rf_repeats);
 	
 	void begin();
     void RFXmeter(uint8_t rfxm_address, uint8_t rfxm_packet_type, long rfxm_value);
