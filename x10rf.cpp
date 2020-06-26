@@ -12,15 +12,6 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 */
 
 #include <stdlib.h>
-
-#if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
-#elif defined(ENERGIA) // LaunchPad, FraunchPad and StellarPad specific
-  #include "Energia.h"
-#else
-  #include "WProgram.h"
-#endif
-
 #include "x10rf.h"
 
 #define X10_RF_SB_LONG          8960 	// Start burts (leader) = 9ms
@@ -35,10 +26,14 @@ void x10rf::begin()
 	if (_led_pin > 0) pinMode(_led_pin, OUTPUT); 
 } 
 
-x10rf::x10rf(uint8_t tx_pin, uint8_t led_pin, uint8_t rf_repeats)
+x10rf::x10rf(uint8_t tx_port, uint8_t tx_pin, uint8_t led_port, uint8_t led_pin,  uint8_t rf_repeats)
 {
 		_tx_pin = tx_pin;
+		_tx_port = tx_port;
+
+		_led_port = led_port;		
 		_led_pin = led_pin;		
+
 		_rf_repeats = rf_repeats;
 }
 
@@ -208,17 +203,22 @@ void x10rf::x10Security(uint8_t address, uint8_t command){
 }
 
 void x10rf::SendCommand(uint8_t *data, uint8_t size){
-	if (_led_pin > 0) digitalWrite(_led_pin, HIGH); 
+	if (_led_pin > 0) 
+		_led_port |= _BV(_led_pin);
+	
 	for (int i = 0; i < _rf_repeats; i++){
-		SEND_HIGH();delayMicroseconds(X10_RF_SB_LONG); 
-		SEND_LOW();delayMicroseconds(X10_RF_SB_SHORT); 
+		SEND_HIGH();_delay_ms(X10_RF_SB_LONG); 
+		SEND_LOW();_delay_ms(X10_RF_SB_SHORT); 
 		for(int i=0; i <= size; i++) {
 			SendX10RfByte(data[i]);
 		}
 	SendX10RfBit(1); 
-	delayMicroseconds(X10_RF_GAP);
+	_delay_ms(X10_RF_GAP);
 	}
-	if (_led_pin > 0) digitalWrite(_led_pin, LOW); 
+	
+	if (_led_pin > 0) 
+		_led_port &= ~_BV(_led_pin);
+
 }
 
 void x10rf::SendX10RfByte(uint8_t data){
@@ -230,17 +230,17 @@ void x10rf::SendX10RfByte(uint8_t data){
 }
 
 void x10rf::SendX10RfBit(unsigned int databit){
-    SEND_HIGH();delayMicroseconds(X10_RF_BIT_SHORT);
-    SEND_LOW();delayMicroseconds(X10_RF_BIT_SHORT);
-    if (databit) delayMicroseconds(X10_RF_BIT_LONG);    
+    SEND_HIGH();_delay_ms(X10_RF_BIT_SHORT);
+    SEND_LOW();_delay_ms(X10_RF_BIT_SHORT);
+    if (databit) _delay_ms(X10_RF_BIT_LONG);    
 }
 
 void x10rf::SEND_HIGH() {
-	digitalWrite(_tx_pin, HIGH);
+	_tx_port |= _BV(_tx_pin);
 }
 
 void x10rf::SEND_LOW(){
-	digitalWrite(_tx_pin, LOW);
+	_tx_port &= ~_BV(_tx_pin);
 }
 
 

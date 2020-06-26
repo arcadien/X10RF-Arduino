@@ -20,20 +20,19 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 #define BRIGHT 0x88
 #define DIM 0x98
 
-#include <stdlib.h>
+#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
+#define bitSet(value, bit) ((value) |= (1UL << (bit)))
+#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-#if defined(ARDUINO) && ARDUINO >= 100
-  #include "Arduino.h"
-#elif defined(ENERGIA) // LaunchPad, FraunchPad and StellarPad specific
-  #include "Energia.h"
-#else
-  #include "WProgram.h"
-#endif
+#include <stdlib.h>
 
 class x10rf
 {
   public:
-    x10rf(uint8_t tx_pin, uint8_t led_pin, uint8_t rf_repeats);
+
+    x10rf(uint8_t tx_port, uint8_t tx_pin, uint8_t led_port, uint8_t led_pin, uint8_t rf_repeats);
+	
 	void begin();
     void RFXmeter(uint8_t rfxm_address, uint8_t rfxm_packet_type, long rfxm_value);
 	void RFXsensor(uint8_t rfxs_address,uint8_t rfxs_type, char rfxs_packet_type, uint8_t rfxs_value);
@@ -46,8 +45,13 @@ class x10rf
 	void SendCommand(uint8_t *date, uint8_t size);
 	void SEND_HIGH();
 	void SEND_LOW();
+	
+	uint8_t _tx_port;
     uint8_t _tx_pin;
+	
+	uint8_t _led_port;
     uint8_t _led_pin;	
+
 	uint8_t _rf_repeats;
 };
 #endif
