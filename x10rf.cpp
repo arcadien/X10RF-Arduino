@@ -310,10 +310,10 @@ void x10rf::SendX10RfBit(unsigned int databit)
 
 void x10rf::SEND_HIGH()
 {
-	_tx_port |= _BV(_tx_pin);
+	TX_PORT |= _BV(_tx_pin);
 }
 
 void x10rf::SEND_LOW()
 {
-	_tx_port &= ~_BV(_tx_pin);
+	TX_PORT &= ~_BV(_tx_pin);
 }
