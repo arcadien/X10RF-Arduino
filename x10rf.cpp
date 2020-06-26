@@ -113,13 +113,13 @@ void x10rf::RFXsensor(uint8_t rfxs_address,uint8_t rfxs_type, char rfxs_packet_t
 	switch (rfxs_type) {
 		case 't': break; 	// Temperature (default)
 		case 'a': 			// A/D
-			x10buff[0] = x10buff[0] + B01;
+			x10buff[0] = x10buff[0] + 0B01;
 		break;
 		case 'm':			// message
-			x10buff[0] = x10buff[0] + B11;
+			x10buff[0] = x10buff[0] + 0B11;
 		break;
 		case 'v':			// voltage
-			x10buff[0] = x10buff[0] + B10;
+			x10buff[0] = x10buff[0] + 0B10;
 		break;
 		}
 	x10buff[1] = (~x10buff[0] & 0xF0) + (x10buff[0] & 0xF); // Calculate byte1 (byte 1 complement MSB nibble of byte0)
@@ -148,22 +148,22 @@ void x10rf::RFXsensor(uint8_t rfxs_address,uint8_t rfxs_type, char rfxs_packet_t
 void x10rf::x10Switch(char house_code, uint8_t unit_code, uint8_t command){
 	uint8_t x10buff[3]; // Set message buffer 4 bytes
 	switch(tolower(house_code)) {
-		case 'a': x10buff[0] = B0110; break;
-		case 'b': x10buff[0] = B0111; break;
-		case 'c': x10buff[0] = B0100; break;
-		case 'd': x10buff[0] = B0101; break;
-		case 'e': x10buff[0] = B1000; break;
-		case 'f': x10buff[0] = B1001; break;
-		case 'g': x10buff[0] = B1010; break;
-		case 'h': x10buff[0] = B1011; break;
-		case 'i': x10buff[0] = B1110; break;
-		case 'j': x10buff[0] = B1111; break;
-		case 'k': x10buff[0] = B1100; break;
-		case 'l': x10buff[0] = B1101; break;		
-		case 'm': x10buff[0] = B0000; break;
-		case 'n': x10buff[0] = B0001; break;
-		case 'o': x10buff[0] = B0010; break;
-		case 'p': x10buff[0] = B0011; break;
+		case 'a': x10buff[0] = 0B0110; break;
+		case 'b': x10buff[0] = 0B0111; break;
+		case 'c': x10buff[0] = 0B0100; break;
+		case 'd': x10buff[0] = 0B0101; break;
+		case 'e': x10buff[0] = 0B1000; break;
+		case 'f': x10buff[0] = 0B1001; break;
+		case 'g': x10buff[0] = 0B1010; break;
+		case 'h': x10buff[0] = 0B1011; break;
+		case 'i': x10buff[0] = 0B1110; break;
+		case 'j': x10buff[0] = 0B1111; break;
+		case 'k': x10buff[0] = 0B1100; break;
+		case 'l': x10buff[0] = 0B1101; break;		
+		case 'm': x10buff[0] = 0B0000; break;
+		case 'n': x10buff[0] = 0B0001; break;
+		case 'o': x10buff[0] = 0B0010; break;
+		case 'p': x10buff[0] = 0B0011; break;
 		default: x10buff[0] = 0; break;
 	}
 	x10buff[0] = x10buff[0] << 4; // House code goes into the upper nibble
