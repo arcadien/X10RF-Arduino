@@ -12,6 +12,10 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 */
 
 #include <stdlib.h>
+#include <ctype.h>
+#include <util/delay.h>
+#include <avr/io.h>
+
 #include "x10rf.h"
 
 #define X10_RF_SB_LONG          8960 	// Start burts (leader) = 9ms
@@ -19,12 +23,6 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 #define X10_RF_BIT_LONG         1120 	// Bit 1 pulse length
 #define X10_RF_BIT_SHORT         560 	// Bit 1 pulse length
 #define X10_RF_GAP             40000 	// Length between commands
-
-void x10rf::begin()
-{
-	pinMode(_tx_pin, OUTPUT);
-	if (_led_pin > 0) pinMode(_led_pin, OUTPUT); 
-} 
 
 x10rf::x10rf(uint8_t tx_port, uint8_t tx_pin, uint8_t led_port, uint8_t led_pin,  uint8_t rf_repeats)
 {

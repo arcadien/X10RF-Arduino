@@ -26,6 +26,7 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
 #include <stdlib.h>
+#include <stdint.h>
 
 class x10rf
 {
