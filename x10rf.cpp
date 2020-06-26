@@ -20,7 +20,7 @@ Tested on a TI Stellarpad (LM4F120H5QR) and Energia 0101E0010. This should also 
 
 #define X10_RF_SB_LONG 8960	 // Start burts (leader) = 9ms
 #define X10_RF_SB_SHORT 4500 //Start silecence (leader) = 4,5 ms
-#define X10_RF_BIT_LONG 1120 // Bit 1 pulse length
+#define X10_RF_BIT_LONG 1200 // Bit 1 pulse length
 #define X10_RF_BIT_SHORT 560 // Bit 1 pulse length
 #define X10_RF_GAP 40000	 // Length between commands
 
@@ -301,11 +301,11 @@ void x10rf::SendX10RfByte(uint8_t data)
 void x10rf::SendX10RfBit(unsigned int databit)
 {
 	SEND_HIGH();
-	_delay_ms(X10_RF_BIT_SHORT);
+	_delay_us(X10_RF_BIT_SHORT);
 	SEND_LOW();
-	_delay_ms(X10_RF_BIT_SHORT);
+	_delay_us(X10_RF_BIT_SHORT);
 	if (databit)
-		_delay_ms(X10_RF_BIT_LONG);
+		_delay_us(X10_RF_BIT_LONG);
 }
 
 void x10rf::SEND_HIGH()
